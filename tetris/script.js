@@ -1,4 +1,3 @@
-//he cambiado el nombre de las variables (constantes) porque normalmente las constantes van en mayusculas
 const CANVAS = document.getElementById("tetris");
 const LIENZO = CANVAS.getContext("2d");
 
@@ -6,13 +5,13 @@ const FILAS = 20; // y
 const COLUMNAS = 10; // x
 const TAMANOCELDA = 30; //la medida de tamaño en pixeles
 
-//coordenadas iniciales utilizadas como ubicación por defecto al generar y pintar una pieza
+//coordenadas iniciales utilizadas como ubicación por defecto
 const XINICIAL = 4; //4, asi se genera en medio del tablero
 const YINICIAL = 0;
 
 //canvasObj.strokeStyle y canvas.strokeRect para pintar bordes
 
-//tablero de 10x20 (meter esto en un .repeat(20) y dentro de la funcion lol, o no?)
+//tablero de 10x20
 const TABLERO = Array.from({ length: 20 }, () => Array(10).fill(0));
 
 /* las probabilidades: 1 es el 100% y las 7 probabilidades conjuntas de las piezas suman un 98% (0.98)
@@ -160,8 +159,8 @@ function actualizar(){
         //y volvemos a mirar si la pieza cabe, en este caso si no cabe (en la posición inicial) quiere decir que no caben más piezas, es decir, la partida acaba
         if (chequearColisiones(piezaActiva, x, y)){
             //se acaba la partida
+            clearInterval(intervaloJugar); //el intervalo del scope(superior) de jugar();
             alert("FIN DE LA PARTIDA, este juego ha sido desarrollado por Adrián GP");
-            clearInterval(intervaloJugar); //el intervalo en el scope (superior) de jugar();
         }
     }
 }
@@ -201,8 +200,7 @@ document.addEventListener("keydown", (evento) => {
         }
     }
 
-    // Redibuja el tablero y la pieza después de moverla
-    LIENZO.clearRect(0, 0, CANVAS.width, CANVAS.height); // Limpia el lienzo
-    dibujarTablero(); // Dibuja el tablero
-    dibujarPieza(piezaActiva, x, y); // Dibuja la pieza en la nueva posición
+    LIENZO.clearRect(0, 0, CANVAS.width, CANVAS.height);
+    dibujarTablero();
+    dibujarPieza(piezaActiva, x, y);
 });
