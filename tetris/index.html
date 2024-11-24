@@ -1,26 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tetris</title>
     <!-- proyecto hecho por adrian gp -->
-    
+
     <style>
-        canvas {
+
+        #contenedorTetris{
+            display: flex;
+            justify-content: center;
+        }
+
+        #tetris {
             display: block;
-            margin: 0 auto;
+            text-align: center;
             background: #000;
         }
+
     </style>
-    
+
 </head>
 
 <body>
-    
-    <!-- cambios a mencionar, nombre de funcion eliminarLinea() a eliminarLineas() porque puedo eliminar mas de una (la funcion se lee toda la matriz) -->
 
-    <canvas id="tetris" width="300" height="600"></canvas>
+    <div id="contenedorTetris">
+        <div style="width: 200px; margin-right: 30px;">
+            <h1>Tetris Adri</h1>
+            <p id="puntuacion">Puntuación: 0</p>
+            <p id="lineasLimpiadas1">Simples realizados: 0</p>
+            <p id="lineasLimpiadas2">Dobles realizados: 0</p>
+            <p id="lineasLimpiadas3">Triples realizados: 0</p>
+            <p id="lineasLimpiadasTetris">Tetris realizados: 0</p>
+
+            <p id="siguientePieza">Siguiente pieza: </p>
+        </div>
+
+        <canvas id="tetris" width="300" height="600"></canvas>
+    </div>
+
     <script src="script.js"></script>
 </body>
+
 </html>
