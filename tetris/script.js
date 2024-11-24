@@ -9,22 +9,20 @@ const TAMANOCELDA = 30; //la medida de tamaño en pixeles
 const XINICIAL = 4; //4, asi se genera en medio del tablero
 const YINICIAL = 0;
 
-//canvasObj.strokeStyle y canvas.strokeRect para pintar bordes
-
 //tablero de 10x20
 const TABLERO = Array.from({ length: 20 }, () => Array(10).fill(0));
 
 /* las probabilidades: 1 es el 100% y las 7 probabilidades conjuntas de las piezas suman un 98% (0.98)
 el resto (2%, o 0.02) lo obtiene la letra C (ya que no es una pieza del tetris original) */
 const PIEZAS = [
-    { nombre: "C", forma: [[1, 1, 1], [1, 0, 1]], probabilidad: 0.02, color: "red" },
     { nombre: "O", forma: [[1, 1], [1, 1]], probabilidad: 0.14, color: "yellow" },
     { nombre: "I", forma: [[1, 1, 1, 1]], probabilidad: 0.14, color: "lightblue" },
     { nombre: "S", forma: [[0, 1, 1], [1, 1, 0]], probabilidad: 0.14, color: "orange" },
     { nombre: "Z", forma: [[1, 1, 0], [0, 1, 1]], probabilidad: 0.14, color: "green" },
     { nombre: "L", forma: [[1, 0], [1, 0], [1, 1]], probabilidad: 0.14, color: "red" },
     { nombre: "J", forma: [[0, 1], [0, 1], [1, 1]], probabilidad: 0.14, color: "green" },
-    { nombre: "T", forma: [[1, 1, 1], [0, 1, 0]], probabilidad: 0.14, color: "blue" }
+    { nombre: "T", forma: [[1, 1, 1], [0, 1, 0]], probabilidad: 0.14, color: "blue" },
+    { nombre: "C", forma: [[1, 1, 1], [1, 0, 1]], probabilidad: 0.02, color: "red" }
 ];
 
 function dibujarTablero() {
@@ -113,6 +111,29 @@ function posicionarPieza(pieza, x, y){
     }
 }
 
+//NO cambia (muta) el atributo "forma", simplemente lo calcula
+function rotarPieza(pieza){
+    //por hacer: comentar esto + el resto de extras
+    let formaOriginal = pieza.forma;
+
+    let filas = formaOriginal.length;
+    let columnas = formaOriginal[0].length;
+
+    let formaGiradaOutput = [];
+
+    
+    for (let col = 0; col < columnas; col++) {
+        
+        let nuevaFila = [];
+        for (let row = filas - 1; row >= 0; row--) {
+            nuevaFila.push(formaOriginal[row][col]);
+        }
+        formaGiradaOutput.push(nuevaFila);
+    }
+
+    return formaGiradaOutput;
+}
+
 /* esta funcion si muta la matriz (la modifica) - se encarga de borrar TODAS las lineas llenas, no solo una.
 IMPORTANTE: aunque el nombre sea eliminar, esta funcion tambien añade una fila nueva */
 function eliminarLineas(){
@@ -160,7 +181,7 @@ function actualizar(){
         if (chequearColisiones(piezaActiva, x, y)){
             //se acaba la partida
             clearInterval(intervaloJugar); //el intervalo del scope(superior) de jugar();
-            alert("FIN DE LA PARTIDA, este juego ha sido desarrollado por Adrián GP");
+            alert("FIN DE LA PARTIDA, Tetris hecho por Adri :D");
         }
     }
 }
@@ -173,7 +194,7 @@ function jugar() {
     LIENZO.clearRect(0, 0, CANVAS.width, CANVAS.height); //esto lo borra
 
     dibujarTablero();
-    //REMINDER: "piezaActiva", "x" e "y" son variables declaradas en el ambito global
+    //nota: "piezaActiva", "x" e "y" son variables declaradas en el ambito global
     dibujarPieza(piezaActiva, x, y);
 }
 
@@ -195,8 +216,21 @@ document.addEventListener("keydown", (evento) => {
     }
 
     if (evento.key == "s" || evento.key == "S") {
-        if (!chequearColisiones(piezaActiva, x, y + 1)) {
+        if (!chequearColisiones(piezaActiva, x, y + 2)) {
             y++;
+        }
+    }
+
+    //funcionalidad de rotar la pieza
+    if (evento.key == "w" || evento.key == "W"){
+
+        //guardo solo la forma, asi no tengo que guardar un objeto entero (ya que es requerido por chequearColisiones)
+        let formaOriginal = piezaActiva.forma;
+        piezaActiva.forma = rotarPieza(piezaActiva);
+
+        //aqui nos interesa probar si la nueva forma colisiona, si NO colisiona, no entrará aqui => no restaurará la forma original
+        if (chequearColisiones(piezaActiva, x, y)){
+            piezaActiva.forma = formaOriginal;
         }
     }
 
