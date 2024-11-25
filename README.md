@@ -21,3 +21,4 @@ Este es un proyecto de **Tetris** realizado para la asignatura de **Desarrollo e
 - La función **eliminarLinea()** la he llamado **eliminarLineas()** ya que lee todo el tablero y puede borrar más de 1.
 - La función **eliminarLineas()** también se encarga de llamar a la función **puntuacionLineas()**
 - Modificaciones *necesarias* ligeras al HTML inicial.
+- Las constantes están **todas** declaradas en mayúsculas, **las constantes que se daban inicialmente en el proyecto también**, para que hubiese consistencia.
