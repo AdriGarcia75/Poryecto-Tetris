@@ -1,6 +1,23 @@
-# Proyecto Tetris
-Proyecto de Tetris para el CFGS Desarrollo de Aplicaciones Web para la asignatura de desarrollo en entorno cliente.
+# Proyecto Tetris - CFGS Desarrollo de Aplicaciones Web
 
-Lenguaje usado: JavaScript, HTML-CSS para presentación.
+Este es un proyecto de **Tetris** realizado para la asignatura de **Desarrollo en Entorno Cliente** del **CFGS Desarrollo de Aplicaciones Web**.
 
-APIs / recursos usados: [Canvas API](https://canvasjs.com/).
+## Tecnologías
+
+- **JavaScript**: Lógica del juego.
+- **HTML/CSS**: Estructura y presentación del juego.
+- **[Canvas API](https://canvasjs.com/)**: Usada para la representación visual del juego.
+
+## Características
+#### Nota (para evitar confusiones): sinónimos del acto de *completar* una linea: *limpiar*, *eliminar*, *borrar*. 
+- Juego interactivo de **Tetris**, fiel a las mecánicas principales, con una pieza nueva, la pieza C, ver más detalles en la parte de "Modificaciones" 
+- Control de las piezas: **izquierda: "a", "A", derecha: "d", "D", abajo: "s", "S", rotar: "w", "W".**
+- **Rotación** de las piezas con la tecla **espacio**.
+- **Puntuación** que aumenta conforme se eliminan lineas y *sólo* cuando se eliminen las lineas.
+- Seguimiento de cuantas lineas a la vez se limpian, se cuentan las eliminaciones **simples, dobles, triples y Tetris (cuádruples)**.
+
+## Modificaciones / cambios a tener en cuenta en cuanto a las restricciones de la tarea.
+- La letra C se ha mantenido, se podría quitar sin ningun problema, pero he preferido dejarla. Sale un 0.06%, un muy bajo porcentaje de aparición para que sea lo más parecido al Tetris original, pero que pueda llegar a aparacer.
+- La función **eliminarLinea()** la he llamado **eliminarLineas()** ya que lee todo el tablero y puede borrar más de 1.
+- La función **eliminarLineas()** también se encarga de llamar a la función **puntuacionLineas()**
+- Modificaciones *necesarias* ligeras al HTML inicial.
