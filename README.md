@@ -12,7 +12,6 @@ Este es un proyecto de **Tetris** realizado para la asignatura de **Desarrollo e
 #### Nota (para evitar confusiones): sinónimos del acto de *completar* una linea: *limpiar*, *eliminar*, *borrar*. 
 - Juego interactivo de **Tetris**, fiel a las mecánicas principales, con una pieza nueva, la pieza C, ver más detalles en la parte de "Modificaciones" 
 - Control de las piezas: **izquierda: "a", "A", derecha: "d", "D", abajo: "s", "S", rotar: "w", "W".**
-- **Rotación** de las piezas con la tecla **espacio**.
 - **Puntuación** que aumenta conforme se eliminan lineas y *sólo* cuando se eliminen las lineas.
 - Seguimiento de cuantas lineas a la vez se limpian, se cuentan las eliminaciones **simples, dobles, triples y Tetris (cuádruples)**.
 
