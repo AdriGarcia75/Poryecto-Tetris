@@ -1,3 +1,4 @@
+//lista de constantes utilizadas durante todo el código
 const CANVAS = document.getElementById("tetris");
 const LIENZO = CANVAS.getContext("2d");
 
@@ -11,7 +12,6 @@ const YINICIAL = 0;
 
 //tablero de 10x20
 const TABLERO = Array.from({ length: 20 }, () => Array(10).fill(0));
-let siguientePieza = undefined; //esta variable guardará la siguiente ficha a utilizar
 
 const TIEMPODIFICULTADBASE = 500; //tiempo base para el intervalo
 const DECREMENTOTIMER = 20; // es constante, cada 500 puntos, se restaran 20ms al tiempo
@@ -28,6 +28,7 @@ const PUNTOSLINEA = [100, 300, 500, 800]; //lista que contiene cuantos puntos ha
 const CONTADORLINEAS = [0, 0, 0, 0];
 
 /* 
+** LEER! Nota sobre probabilidad de piezas
 ** Las 7 piezas de Tetris tienen aproximadamente 1/7 de probabilidades (14.27%).
 ** La pieza C se ha hecho a propósito una pieza rara, se le ha asignado una probabilidad de 1 - (0.142 * 7), resultado = 0.006%, 
 ** al ser requisito del ejercicio pero mantener el sistema fiel al del Tetris original.
@@ -43,6 +44,16 @@ const PIEZAS = [
     { nombre: "C", forma: [[1, 1, 1], [1, 0, 1]], probabilidad: 0.006, color: "red" }
 ];
 
+//variables utilizadas para la ejecución de jugar(), función principal que se repite en un intervalo (por defecto cada 0.5 segundos)
+let siguientePieza = undefined; //esta variable guardará la siguiente ficha a utilizar
+
+let piezaActiva = generarPieza();
+let y = YINICIAL;
+let x = XINICIAL;
+let tiempoDificultad = TIEMPODIFICULTADBASE;
+let puntosTotales = 0; //variable que guarda los puntos
+
+
 function dibujarTablero() {
 
     for (let i = 0; i < TABLERO.length; i++) {
@@ -53,7 +64,7 @@ function dibujarTablero() {
     }
 }
 
-//esto pinta, no muta la matriz. nota: primero se pinta, se borra, se "mueve" y se vuelve a pintar
+//esto pinta, no muta la matriz
 function dibujarPieza(pieza, x, y) {
     //para cada array de la que esta formada la pieza
     for (let row = 0; row < pieza.forma.length; row++) {
@@ -181,7 +192,8 @@ function puntuacionLineas(numeroLineasLimpiadas) {
 }
 
 /* esta funcion si muta la matriz (la modifica) - se encarga de borrar TODAS las lineas llenas, no solo una.
-** IMPORTANTE: aunque el nombre sea eliminar, esta funcion tambien añade una fila nueva */
+** IMPORTANTE: aunque el nombre sea eliminar, esta funcion tambien añade una fila nueva 
+*/
 //añadido: eliminar lineas junto a un contador, llamará a puntuacionLineas()
 function eliminarLineas() {
     let numeroLineasLimpiadas = 0;
@@ -212,13 +224,6 @@ function eliminarLineas() {
 function calcularTiempoDificultad(){
     return Math.max(200, TIEMPODIFICULTADBASE - 20 * Math.floor(puntosTotales / 500)); //cada 500 puntos
 }
-
-//variables utilizadas para la ejecución
-let piezaActiva = generarPieza();
-let y = YINICIAL;
-let x = XINICIAL;
-let tiempoDificultad = TIEMPODIFICULTADBASE;
-let puntosTotales = 0; //variable que guarda los puntos
 
 function actualizar() {
     y++; //movemos la pieza para abajo
@@ -270,10 +275,10 @@ function jugar() {
     actualizar();
 
     //y actualizamos el estado VISUAL del tablero (lo repintamos)
-    LIENZO.clearRect(0, 0, CANVAS.width, CANVAS.height); //esto lo borra
-
+    LIENZO.clearRect(0, 0, CANVAS.width, CANVAS.height);
     dibujarTablero();
-    //nota: "piezaActiva", "x" e "y" son variables declaradas en el ambito global
+
+    //recordatorio: "piezaActiva", "x" e "y" son variables declaradas en el ambito global
     dibujarPieza(piezaActiva, x, y);
 }
 
@@ -303,13 +308,14 @@ document.addEventListener("keydown", (evento) => {
     //funcionalidad de rotar la pieza
     if (evento.key == "w" || evento.key == "W") {
 
-        //guardo solo la forma, asi no tengo que guardar un objeto entero (ya que es requerido por chequearColisiones)
-        let formaOriginal = piezaActiva.forma;
-        piezaActiva.forma = rotarPieza(piezaActiva);
+        //tenemos que hacer una copia "profunda" del objeto, ya que hacer una copia directa (let nuevo = original) pasa las referencias de las matrices y el codigo explota
+        let piezaAuxiliar = JSON.parse(JSON.stringify(piezaActiva));
+
+        piezaAuxiliar.forma = rotarPieza(piezaAuxiliar);
 
         //aqui nos interesa probar si la nueva forma colisiona, si NO colisiona, no entrará aqui => no restaurará la forma original
-        if (chequearColisiones(piezaActiva, x, y)) {
-            piezaActiva.forma = formaOriginal;
+        if (!chequearColisiones(piezaAuxiliar, x, y)) {
+            piezaActiva.forma = piezaAuxiliar.forma;
         }
     }
 
