@@ -17,7 +17,7 @@ Este es un proyecto de **Tetris** realizado para la asignatura de **Desarrollo e
 
 ## Modificaciones / cambios a tener en cuenta en cuanto a las restricciones de la tarea.
 - La letra C se ha mantenido, se podría quitar sin ningun problema, pero he preferido dejarla. Sale un 0.06%, un muy bajo porcentaje de aparición para que sea lo más parecido al Tetris original, pero que pueda llegar a aparacer.
-- La función **eliminarLinea()** la he llamado **eliminarLineas()** ya que lee todo el tablero y puede borrar más de 1.
+- La función **eliminarLinea()** la he llamado **eliminarLineas()** ya que lee todo el tablero y es capaz de borrar más de una linea.
 - La función **eliminarLineas()** también se encarga de llamar a la función **puntuacionLineas()**
 - Modificaciones *necesarias* ligeras al HTML inicial.
 - Las constantes están **todas** declaradas en mayúsculas, **las constantes que se daban inicialmente en el proyecto también**, para que hubiese consistencia.
